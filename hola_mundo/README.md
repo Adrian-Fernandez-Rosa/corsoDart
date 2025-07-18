@@ -17,3 +17,4 @@ flutter doctor sirve para ver si esta bien instalado
 el stack tiene una propiedad que es alignment
 
 
+02 53 47
