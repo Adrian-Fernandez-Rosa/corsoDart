@@ -9,18 +9,24 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
     return MaterialApp(
       theme: ThemeData(fontFamily: 'BebasNeue'),
       home: const Scaffold(
         body: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
           children: [
-                   Image(image: AssetImage('assets/images/avion.png')),
-            Text(' aaasa', style: TextStyle(fontSize: 140, color: Colors.red),
+            Image(
+              image: AssetImage('assets/images/avion.png'),
+             // fit: BoxFit.cover,
             ),
-       
-              // Image
-        
+            Positioned(
+              top: 300,
+              child: Text(
+                'adasa',
+                style: TextStyle(fontSize: 40, color: Colors.red),
+              ),
+            ),
           ],
         ),
       ),

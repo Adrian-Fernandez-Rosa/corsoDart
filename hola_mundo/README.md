@@ -18,3 +18,4 @@ el stack tiene una propiedad que es alignment
 
 
 02 53 47
+3 02 11
