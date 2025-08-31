@@ -16,6 +16,10 @@ flutter doctor sirve para ver si esta bien instalado
 
 el stack tiene una propiedad que es alignment
 
+# Cambiar icono de app
+
+
 
 02 53 47
 3 02 11
+03 10 47

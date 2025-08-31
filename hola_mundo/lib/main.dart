@@ -17,14 +17,15 @@ class MainApp extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image(
-              image: AssetImage('assets/images/avion.png'),
-             // fit: BoxFit.cover,
+              image: NetworkImage("https://img.freepik.com/foto-gratis/fondo-planeta-tierra_23-2150564685.jpg"),
+              // image: AssetImage('assets/images/avion.png'),
+              fit: BoxFit.cover,
             ),
             Positioned(
-              top: 300,
+              top: 100,
               child: Text(
-                'adasa',
-                style: TextStyle(fontSize: 40, color: Colors.red),
+                'HOLA MUNDO',
+                style: TextStyle(fontSize: 40, color: Colors.white),
               ),
             ),
           ],
