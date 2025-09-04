@@ -25,3 +25,4 @@ iconos IOS EN Hola_Mundo\hola_mundo\ios\Runner\Assets.xcassets\AppIcon.appiconse
 02 53 47
 3 02 11
 03 10 47
+3 23 41
