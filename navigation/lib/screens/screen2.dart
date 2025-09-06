@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class Screens2 extends StatelessWidget {
   const Screens2({super.key});
 
+  // static String routeName = '/screen2';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

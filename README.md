@@ -315,3 +315,184 @@ class MainApp extends StatelessWidget {
  } 
 
 ```
+
+
+# buenas practicas (routes)
+
+```dart
+
+<!-- ESTE ES EL ARCHIVO ACTUAL CON SUS RUTAS -->
+
+import 'package:flutter/material.dart';
+import 'package:navigation/screens/screen2.dart';
+import 'package:navigation/screens/screens1.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // home: Screens1(),
+      // usando propiedad de la clase Screens1 
+     initialRoute:  Screens1.routeName, 
+    //  s
+      routes:{
+        Screens1.routeName:(context) => const Screens1(),
+        
+       Screens2.routeName:(context) => const Screens2(),  
+      } ,
+      );
+   
+    
+  }
+ } 
+```
+
+<!-- PARA TENER BUENAS PRACTICAS GENERAREMOS UN ONGENERATORROUTES -->
+
+
+<!-- lib\routes\appRouter.dart -->
+
+```dart
+
+
+import 'package:flutter/material.dart';
+import 'package:navigation/routes/Routes.dart';
+import 'package:navigation/screens/screen2.dart';
+import 'package:navigation/screens/screens1.dart';
+
+class AppRouter {
+  static Route onGenerateRoute(RouteSettings settings) {
+    
+     switch (settings.name) {
+      case Routes.screen1:
+        return MaterialPageRoute(builder: (_) => const Screens1());
+      case Routes.screen2:
+        return MaterialPageRoute(builder: (_) => const Screens2());
+      default:
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(
+            body: Center(
+              child: Text('No route defined'),
+            ),
+          ),
+        );
+    }
+  }
+}
+
+```
+
+lib\routes\routes.dart
+
+```dart
+class Routes {
+  static const String screen1 = '/';
+  static const String screen2 = '/screen2';
+}
+```
+
+
+lib\screens\screens1.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:navigation/routes/Routes.dart';
+// import 'package:navigation/screens/screen2.dart';
+
+class Screens1 extends StatelessWidget {
+  const Screens1({super.key});
+
+// Propieta dalla clase
+  static const String routeName = '/'; // <-- Agrega esta línea
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        
+        title: const Text('Screens 1')
+        
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context) =>       const Screens2(),));
+              Navigator.pushNamed(context, Routes.screen2);
+           
+            },
+            child: const Text('ir a la Screens 2'),
+          ),
+        )
+    );
+  }
+}
+
+```
+
+
+lib\screens\screen2.dart
+
+```dart
+import 'package:flutter/material.dart';
+
+class Screens2 extends StatelessWidget {
+  const Screens2({super.key});
+
+  // static String routeName = '/screen2';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        
+        title: const Text('Screens 2'),
+        automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('volver a screen 1'),
+          ),
+        )
+    );
+  }
+}
+```
+
+lib\main.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:navigation/routes/appRouter.dart';
+// import 'package:navigation/screens/screen2.dart';
+// import 'package:navigation/screens/screens1.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // final AppRouter appRouter = AppRouter();
+
+    return const MaterialApp(
+      // home: Screens1(),
+      // usando propiedad de la clase Screens1
+      initialRoute: '/',
+      onGenerateRoute: AppRouter.onGenerateRoute,
+    );
+  }
+}
+```
