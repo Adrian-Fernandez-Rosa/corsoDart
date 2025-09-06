@@ -178,3 +178,53 @@ class _HomePageState extends State<HomePage> {
   print(frutas.last);
 
   ```
+
+  # Mapas
+
+```dart
+
+    final Map<String,int> contactos = {
+    'Mama': 12345,
+    'PAPA': 2321412,
+    'Sorella': 4124312
+    
+  };
+  
+  print(contactos.length);
+  print(contactos['Mama']);
+
+  ```
+
+
+  # Clases
+
+  En Dart no existe la sobrecarga de constructores como en Java o C#.
+Pero se puede lograr un efecto parecido de dos formas:
+
+
+```dart
+
+class Auto {
+  final int puertas;
+  final String color;
+
+  Auto({int? puertas, String? color})
+      : puertas = puertas ?? 4,
+        color = color ?? 'Negro';
+
+  void reversa() {
+    print('El auto está en reversa');
+  }
+}
+
+void main() {
+  final auto1 = Auto(); // usa 4 puertas y color Negro
+  final auto2 = Auto(puertas: 2, color: 'Rojo'); // usa los parámetros dados
+
+  print('Auto1: ${auto1.puertas} puertas, color ${auto1.color}');
+  print('Auto2: ${auto2.puertas} puertas, color ${auto2.color}');
+}
+```
+
+si no pasas nada, usa los valores por defecto.
+Si pasas parámetros, usa esos valores.
