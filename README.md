@@ -357,7 +357,7 @@ class MainApp extends StatelessWidget {
 <!-- PARA TENER BUENAS PRACTICAS GENERAREMOS UN ONGENERATORROUTES -->
 
 
-<!-- lib\routes\appRouter.dart -->
+ lib\routes\appRouter.dart 
 
 ```dart
 
