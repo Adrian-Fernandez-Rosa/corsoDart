@@ -150,3 +150,31 @@ class _HomePageState extends State<HomePage> {
 
 
 ```dart
+
+
+# Listas
+
+```dart
+
+  final List<String> frutas = ['Mango', 'Manzana', 'Banano', 'Sandia'];
+
+  //  print(frutas[3]);
+
+  //  print(frutas.indexOf('Banano1'));
+
+  print(frutas.length);
+
+  frutas.add('Pera');
+
+  print(frutas.length);
+
+  //insertar donde uno quiera
+
+  frutas.insert(1, 'Frutilla');
+
+  print(frutas);
+  
+  print(frutas.first);
+  print(frutas.last);
+
+  ```
