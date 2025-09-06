@@ -228,3 +228,90 @@ void main() {
 
 si no pasas nada, usa los valores por defecto.
 Si pasas parámetros, usa esos valores.
+
+## Navegacion (routes)
+
+
+# Navegacion anomima
+
+```dart
+<!-- Hola_Mundo\navigation\lib\screens\screens1.dart -->
+import 'package:flutter/material.dart';
+import 'package:navigation/screens/screen2.dart';
+
+class Screens1 extends StatelessWidget {
+  const Screens1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        
+        title: const Text('Screens 1')
+        
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => 
+              const Screens2(),));
+            },
+            child: const Text('ir a la Screens 2'),
+          ),
+        )
+    );
+  }
+}
+
+<!-- lib\screens\screen2.dart -->
+
+
+import 'package:flutter/material.dart';
+
+class Screens2 extends StatelessWidget {
+  const Screens2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        
+        title: const Text('Screens 2'),
+        automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('volver a screen 1'),
+          ),
+        )
+    );
+  }
+}
+
+<!-- Main -->
+
+import 'package:flutter/material.dart';
+import 'package:navigation/screens/screens1.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Screens1()
+      );
+   
+    
+  }
+ } 
+
+```
