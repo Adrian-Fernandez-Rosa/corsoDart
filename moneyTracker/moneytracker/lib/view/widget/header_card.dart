@@ -19,7 +19,7 @@ class HeaderCard extends StatelessWidget {
 
     return  Expanded(
       child:  Card(
-          margin: EdgeInsets.all(0),
+          margin: EdgeInsets.all(0), // elimina el margen por defecto en todos los lados
           color: Colors.white,
           child: Padding(
             padding: EdgeInsets.all(12),
