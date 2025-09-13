@@ -19,13 +19,19 @@ class HomeScreen extends StatelessWidget {
       ),
 
         floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
         onPressed: () {
           // Mostrar un botton sheet para agregar una nueva transacción
-            showModalBottomSheet(context: context, builder:  (context) {
+            showModalBottomSheet(
+              context: context, 
+            isScrollControlled: true, // para que el modal ocupe toda la pantalla
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(51.0))),
+              builder:  (context) {
               return AddTransactionsDialog();
             });
 
-        },child: const Icon(Icons.add),
+        },child: const Icon(Icons.add, color: Colors.white,),
       ),
     );
   

@@ -17,6 +17,7 @@ class homeHeader extends StatelessWidget {
       ),
       child: Column(
       children: [
+        const SizedBox(height: 13), // espacio superior
         Text(
           'MONEY TRACKER',
          style: 

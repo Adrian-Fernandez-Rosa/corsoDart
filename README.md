@@ -121,12 +121,12 @@ class _HomePageState extends State<HomePage> {
                   //  textColor = Colors.purple;
                     changeColor(Colors.purple);
 
-                    
+
                   },
                   child:
                       Container(width: 100, height: 100, color: Colors.purple)),
 
-            
+
                 GestureDetector(
                   onTap: () {
                     // textColor = Colors.blueAccent;
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
   frutas.insert(1, 'Frutilla');
 
   print(frutas);
-  
+
   print(frutas.first);
   print(frutas.last);
 
@@ -187,9 +187,9 @@ class _HomePageState extends State<HomePage> {
     'Mama': 12345,
     'PAPA': 2321412,
     'Sorella': 4124312
-    
+
   };
-  
+
   print(contactos.length);
   print(contactos['Mama']);
 
@@ -246,14 +246,14 @@ class Screens1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+
         title: const Text('Screens 1')
-        
+
         ),
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => 
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>
               const Screens2(),));
             },
             child: const Text('ir a la Screens 2'),
@@ -275,7 +275,7 @@ class Screens2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+
         title: const Text('Screens 2'),
         automaticallyImplyLeading: false,
         ),
@@ -309,10 +309,10 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Screens1()
       );
-   
-    
+
+
   }
- } 
+ }
 
 ```
 
@@ -339,25 +339,25 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: Screens1(),
-      // usando propiedad de la clase Screens1 
-     initialRoute:  Screens1.routeName, 
+      // usando propiedad de la clase Screens1
+     initialRoute:  Screens1.routeName,
     //  s
       routes:{
         Screens1.routeName:(context) => const Screens1(),
-        
-       Screens2.routeName:(context) => const Screens2(),  
+
+       Screens2.routeName:(context) => const Screens2(),
       } ,
       );
-   
-    
+
+
   }
- } 
+ }
 ```
 
 <!-- PARA TENER BUENAS PRACTICAS GENERAREMOS UN ONGENERATORROUTES -->
 
 
- lib\routes\appRouter.dart 
+ lib\routes\appRouter.dart
 
 ```dart
 
@@ -369,7 +369,7 @@ import 'package:navigation/screens/screens1.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
-    
+
      switch (settings.name) {
       case Routes.screen1:
         return MaterialPageRoute(builder: (_) => const Screens1());
@@ -416,16 +416,16 @@ class Screens1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+
         title: const Text('Screens 1')
-        
+
         ),
         body: Center(
           child: ElevatedButton(
             onPressed: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context) =>       const Screens2(),));
               Navigator.pushNamed(context, Routes.screen2);
-           
+
             },
             child: const Text('ir a la Screens 2'),
           ),
@@ -451,7 +451,7 @@ class Screens2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+
         title: const Text('Screens 2'),
         automaticallyImplyLeading: false,
         ),
@@ -526,8 +526,8 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
- 
-    
+
+
 
 
     return  SizedBox(
@@ -556,7 +556,7 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
           }, onValueChanged: (value) {
             setState(() {
             typeIndex = value;
-              
+
             });
           }),
 
@@ -578,3 +578,38 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
   }
 }
 ```
+
+# Manejar datos entre vistas
+
+![Diagrama de flujo](diagrama.png)
+
+
+## 🔄 Flujo de datos entre vistas
+
+### MyApp (raíz)
+- Mantiene el **estado global** (ej: lista de transacciones).
+- Pasa los datos a **HomeScreen** mediante el **constructor**.
+- Pasa un **callback** a **AddTransactionDialog** para manejar nuevas transacciones.
+
+### HomeScreen
+- Recibe los datos desde **MyApp**.
+- Distribuye la información a sus hijos:
+  - **HomeHeader** → muestra balance/resumen.
+  - **TransactionsList** → renderiza las transacciones en un `ListView`.
+  - **FloatingActionButton** → abre `AddTransactionDialog`.
+
+### AddTransactionDialog
+- Contiene `TextField` y `Button` para capturar datos de la nueva transacción.
+- Al presionar el botón, se ejecuta el **callback recibido de MyApp**, enviando los datos de la transacción.
+
+### setState en MyApp
+- Actualiza la **lista de transacciones**.
+- Provoca que el **árbol de widgets se reconstruya**.
+- **HomeScreen** recibe la lista actualizada y refleja el cambio en pantalla.
+
+---
+
+## 📌 Resumen
+- Los **datos bajan** desde `MyApp` hacia `HomeScreen` vía **constructores**.
+- Las **acciones del usuario suben** desde `AddTransactionDialog` hacia `MyApp` vía **callbacks**.
+- `setState` en `MyApp` asegura que la **UI siempre esté sincronizada**.

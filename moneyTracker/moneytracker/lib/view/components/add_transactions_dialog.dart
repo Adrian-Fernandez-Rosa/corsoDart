@@ -20,9 +20,10 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
 
 
     return  SizedBox(
-      height: 680,
+      height: 750 ,
       width: double.infinity,
       child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             margin: EdgeInsets.only(top: 12),
@@ -58,11 +59,36 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
             textAlign: TextAlign.center,
             decoration: const InputDecoration.collapsed(hintText: '\$ 0.00'),
             keyboardType: TextInputType.number,
-          )
+            // autofocus: true,
+          ),
+          const SizedBox(height: 20,),
+          Text(
+            'DESCRIPTION',
+            style: textTheme.bodySmall!.copyWith(color: Colors.teal),
+          ),
+
+          const TextField(
+            // inputFormatters: [CurrencyTextInputFormatter.currency(symbol: '\$')],
+            textAlign: TextAlign.center,
+            decoration: InputDecoration.collapsed(
+                hintText: 'Enter a description here',
+                hintStyle: TextStyle(color: Colors.grey)),
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+              width: 250,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                child: const Text(
+                  'Add Transaction',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              )
         ],
       ),
     );
-
-
   }
 }
