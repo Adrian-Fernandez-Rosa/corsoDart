@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
      int? typeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    
+    final textTheme = Theme.of(context).textTheme;
 
  
     
@@ -46,7 +47,18 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
             typeIndex = value;
               
             });
-          })
+          }),
+
+          const SizedBox(height: 20,),
+          // Text("Amount"), style: textTheme.bodySmall.copyWidth(color: Colors.teal),
+          Text("AMOUNT", style: textTheme.bodySmall!.copyWith(color: Colors.teal),),
+
+          TextField(
+            inputFormatters: [CurrencyTextInputFormatter.currency(symbol: '\$')],
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration.collapsed(hintText: '\$ 0.00'),
+            keyboardType: TextInputType.number,
+          )
         ],
       ),
     );
