@@ -9,11 +9,12 @@ class AddTransactionsDialog extends StatefulWidget {
 }
 
 class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
+     int? typeIndex = 0;
   @override
   Widget build(BuildContext context) {
     
 
-    int typeIndex = 1;
+ 
     
 
 
@@ -36,11 +37,16 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
             child: Text('New Transaction', style: TextStyle(fontSize: 20, color: Colors.teal,  fontWeight: FontWeight.bold,),),
           ),
           CupertinoSlidingSegmentedControl(
-            groupValue: 1,
+            groupValue: typeIndex,
             children: const {
             0: Text('Expense'),
             1: Text('Income'),
-          }, onValueChanged: (value) {})
+          }, onValueChanged: (value) {
+            setState(() {
+            typeIndex = value;
+              
+            });
+          })
         ],
       ),
     );
