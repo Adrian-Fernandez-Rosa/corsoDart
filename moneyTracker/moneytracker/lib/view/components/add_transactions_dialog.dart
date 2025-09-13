@@ -1,11 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddTransactionsDialog extends StatelessWidget {
+class AddTransactionsDialog extends StatefulWidget {
   const AddTransactionsDialog({super.key});
 
   @override
+  State<AddTransactionsDialog> createState() => _AddTransactionsDialogState();
+}
+
+class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
+  @override
   Widget build(BuildContext context) {
     
+
+    int typeIndex = 1;
+    
+
+
     return  SizedBox(
       height: 680,
       width: double.infinity,
@@ -22,13 +33,18 @@ class AddTransactionsDialog extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.all(20),
-            child: Text('New Transaction', style: TextStyle(fontSize: 20, color: Colors.teal),),
+            child: Text('New Transaction', style: TextStyle(fontSize: 20, color: Colors.teal,  fontWeight: FontWeight.bold,),),
           ),
+          CupertinoSlidingSegmentedControl(
+            groupValue: 1,
+            children: const {
+            0: Text('Expense'),
+            1: Text('Income'),
+          }, onValueChanged: (value) {})
         ],
       ),
     );
 
 
   }
-
 }
