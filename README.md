@@ -737,3 +737,127 @@ ChangeNotifierProvider(
 | BLoC              | ✅ Muy alta    | ⚠️ Media    | ❌ Alto      | Apps enormes, críticas          |
 | Riverpod          | ✅ Muy alta    | ✅ Fácil     | ✅ Poco      | Alternativa moderna a Provider  |
 | GetX              | ✅ Alta        | ✅ Muy fácil | ✅ Poco      | Apps rápidas/prototipos grandes |
+
+------------------------------------------------------------------------------------
+
+
+# 📌 Listener y Provider en Flutter
+
+En Flutter, **Listener** y **Provider** son conceptos relacionados con la gestión y la reacción a cambios de estado.  
+Ambos permiten que la UI se actualice automáticamente cuando el estado cambia, pero tienen propósitos distintos.
+
+---
+
+## 🔹 Listener
+Un **listener** es algo que **escucha cambios** en un valor, evento o estado, y ejecuta código o reconstruye widgets en respuesta a esos cambios.  
+
+### Ejemplo con `ValueListenableBuilder`
+```dart
+// Definimos un ValueNotifier
+ValueNotifier<int> contador = ValueNotifier(0);
+
+// Widget que escucha cambios
+ValueListenableBuilder<int>(
+  valueListenable: contador,
+  builder: (context, value, child) {
+    return Text("Valor: $value");
+  },
+);
+```
+
+
+
+👉 Cada vez que se hace `contador.value++`, el `ValueListenableBuilder` (listener) detecta el cambio y reconstruye el `Text`.  
+
+### 🔹 Otros ejemplos de listeners en Flutter
+- `ScrollController.addListener(() { ... })`  
+- `AnimationController.addListener(() { ... })`  
+- `StreamBuilder` (escucha streams de datos)  
+
+---
+
+## 🔹 Provider
+`Provider` es un **paquete de gestión de estado** que se basa en `InheritedWidget`.  
+Se utiliza para **inyectar estado o lógica** en el árbol de widgets y que cualquier widget hijo pueda acceder a él sin necesidad de pasarlo manualmente por constructores.  
+
+### Ejemplo básico con `ChangeNotifierProvider`
+```dart
+ChangeNotifierProvider(
+  create: (_) => CounterModel(),
+  child: MyApp(),
+);
+
+Ejemplo básico con ChangeNotifierProvider
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Definimos un modelo con ChangeNotifier
+class ContadorModel with ChangeNotifier {
+  int _valor = 0;
+  int get valor => _valor;
+
+  void incrementar() {
+    _valor++;
+    notifyListeners(); // 🔔 Notifica a los listeners
+  }
+}
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ContadorModel(),
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(home: HomePage());
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final contador = Provider.of<ContadorModel>(context);
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Provider Example")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Valor: ${contador.valor}"),
+            ElevatedButton(
+              onPressed: contador.incrementar,
+              child: Text("Incrementar"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+
+👉 Aquí pasa lo siguiente:
+- `Provider` inyecta el `ContadorModel` en toda la app.  
+- Los widgets que usan `Provider.of<ContadorModel>(context)` escuchan cambios.  
+- Al ejecutar `notifyListeners()`, todos los listeners se actualizan y la UI se reconstruye.  
+
+---
+
+## 🔑 Diferencia clave
+- **Listener** → escucha un cambio y reacciona (ej: animaciones, scroll, `ValueNotifier`, `Stream`).  
+- **Provider** → patrón de arquitectura para manejar y compartir estado en la app, que usa listeners internos para notificar cambios.  
+
+---
+
+## 📌 En otras palabras
+- `Provider` **distribuye el estado**.  
+- `Listener` **reacciona a los cambios** de ese estado.  
