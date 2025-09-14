@@ -17,7 +17,7 @@ class TransactionsProvider extends ChangeNotifier {
 
   ];
 
-  List<Transaction> get transactions => _transactions;
+  List<Transaction> get transactions => _transactions; 
 
   double getTotalBalance() {
     return _transactions
@@ -25,7 +25,16 @@ class TransactionsProvider extends ChangeNotifier {
       //  .map((transactions) => transactions.amount)
       //  .fold(0, (a, b) => a + b);
 
-      .fold(0, (sum, t) => sum + t.amount);
+      .fold(0, (sum, b) => sum + b.amount);
+       }
+
+  double gentBalance() {
+    return _transactions
+       .where((transactions) => transactions.type == TransactionType.expense)
+      //  .map((transactions) => transactions.amount)
+      //  .fold(0, (a, b) => a + b);
+
+      .fold(0, (sum, b) => sum + b.amount);
        }
 
   void addTransaction(Transaction transaction) {
