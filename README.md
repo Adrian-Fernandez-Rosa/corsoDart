@@ -615,6 +615,117 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
 - `setState` en `MyApp` asegura que la **UI siempre esté sincronizada**.
 
 
+# 📌 Manejo de Estado en Flutter
+
+En Flutter, el **manejo de estado (state management)** es clave para apps que tienen múltiples vistas compartiendo datos.  
+Aquí se presentan los enfoques más comunes, con sus ventajas y desventajas.
+
+---
+
+## 🔹 1. `setState`
+👉 La forma más básica. Se usa en **widgets con poco estado local**.  
+
+```dart
+setState(() {
+  contador++;
+});
+
+### ✅ Ventajas
+- Sencillo, rápido de implementar.  
+- Perfecto para prototipos y componentes chicos (ej: un contador, un formulario).  
+
+### ❌ Desventajas
+- No escala. Si hay muchas pantallas, no se pueden pasar datos fácilmente entre ellas.  
+- Cada `setState` reconstruye todo el widget, aunque cambie solo una parte.  
+
+### 📌 Uso recomendado
+- Prototipos o pantallas pequeñas sin dependencias entre vistas.  
+
+
+
+## 🔹 2. Lifting State Up
+
+👉 Significa **“subir el estado a un widget padre”** para compartirlo entre varios hijos.  
+
+Ejemplo: un widget raíz mantiene una lista de datos y se la pasa a dos vistas hijas por constructor.  
+
+### ✅ Ventajas
+- Claro y explícito (se sabe quién maneja los datos).  
+- Bueno si solo hay 2–3 vistas que comparten estado.  
+
+### ❌ Desventajas
+- Pasar props se vuelve complejo cuando la app crece.  
+- Mucha repetición en constructores.  
+
+### 📌 Uso recomendado
+- Apps pequeñas o medianas donde solo unas pocas vistas comparten estado.  
+
+
+## 🔹 3. InheritedWidget
+
+👉 Widget especial de Flutter para **inyectar datos en el árbol de widgets** sin tener que pasarlos manualmente en cada constructor.  
+
+Ejemplo clásico: `Theme.of(context)` o `MediaQuery.of(context)`.  
+
+### ✅ Ventajas
+- Oficial en Flutter, muy eficiente.  
+- Perfecto si hay datos globales (usuario logueado, configuración).  
+
+### ❌ Desventajas
+- Verboso de implementar.  
+- Difícil de mantener en apps grandes.  
+
+### 📌 Uso recomendado
+- Base técnica sobre la que están construidos otros paquetes como Provider.  
+
+## 🔹 4. Provider
+
+👉 Basado en `InheritedWidget`, pero mucho más simple de usar. Es el **más popular y recomendado oficialmente por Flutter**.  
+
+```dart
+ChangeNotifierProvider(
+  create: (_) => CounterModel(),
+  child: MyApp(),
+);
+
+### ✅ Ventajas
+- Fácil de aprender.  
+- Reactividad automática (los widgets se actualizan cuando cambia el modelo).  
+- Menos código que `InheritedWidget`.  
+- Ideal para apps medianas-grandes.  
+
+### ❌ Desventajas
+- Puede ser desordenado si no se estructuran bien los `Providers`.  
+- No es la mejor opción si se necesita lógica de negocio muy compleja.  
+
+### 📌 Uso recomendado
+- Apps medianas o grandes que necesitan compartir datos entre varias vistas.  
+
+## 🔹 5. BLoC (Business Logic Component)
+
+👉 Maneja el estado con **Streams y eventos**. Cada cambio en la UI se envía como un evento, y el `Bloc` emite un nuevo estado.  
+
+### ✅ Ventajas
+- Arquitectura clara y escalable.  
+- Separación estricta entre UI y lógica de negocio.  
+- Muy usado en apps grandes (empresariales).  
+
+### ❌ Desventajas
+- Mucho boilerplate (eventos, estados, blocs).  
+- Curva de aprendizaje mayor.  
+- Puede sentirse “pesado” para apps pequeñas.  
+
+### 📌 Uso recomendado
+- Apps muy grandes y críticas donde la lógica de negocio debe estar bien desacoplada.  
+
+---
+
+## 🔹 6. Otras opciones modernas
+- **Riverpod** → evolución de Provider, más flexible y con menos boilerplate.  
+- **GetX** → rápido y práctico, aunque criticado por no seguir del todo los patrones oficiales.  
+- **MobX** → enfoque reactivo estilo ReactJS.  
+
+
 | Método            | Escalabilidad | Facilidad   | Boilerplate | Uso recomendado                 |
 | ----------------- | ------------- | ----------- | ----------- | ------------------------------- |
 | `setState`        | ❌ Baja        | ✅ Muy fácil | ✅ Poco      | Prototipos, pantallas simples   |
