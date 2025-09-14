@@ -629,6 +629,7 @@ Aquí se presentan los enfoques más comunes, con sus ventajas y desventajas.
 setState(() {
   contador++;
 });
+```
 
 ### ✅ Ventajas
 - Sencillo, rápido de implementar.  
