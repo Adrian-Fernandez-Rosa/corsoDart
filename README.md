@@ -687,6 +687,7 @@ ChangeNotifierProvider(
   create: (_) => CounterModel(),
   child: MyApp(),
 );
+```
 
 ### ✅ Ventajas
 - Fácil de aprender.  
