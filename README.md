@@ -613,3 +613,14 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
 - Los **datos bajan** desde `MyApp` hacia `HomeScreen` vía **constructores**.
 - Las **acciones del usuario suben** desde `AddTransactionDialog` hacia `MyApp` vía **callbacks**.
 - `setState` en `MyApp` asegura que la **UI siempre esté sincronizada**.
+
+
+| Método            | Escalabilidad | Facilidad   | Boilerplate | Uso recomendado                 |
+| ----------------- | ------------- | ----------- | ----------- | ------------------------------- |
+| `setState`        | ❌ Baja        | ✅ Muy fácil | ✅ Poco      | Prototipos, pantallas simples   |
+| Lifting State Up  | ❌ Baja        | ✅ Fácil     | ❌ Mucho     | Compartir entre 2–3 vistas      |
+| `InheritedWidget` | ⚠️ Media      | ❌ Difícil   | ❌ Mucho     | Base técnica, no directo        |
+| Provider          | ✅ Alta        | ✅ Fácil     | ⚠️ Medio    | Apps medianas/grandes           |
+| BLoC              | ✅ Muy alta    | ⚠️ Media    | ❌ Alto      | Apps enormes, críticas          |
+| Riverpod          | ✅ Muy alta    | ✅ Fácil     | ✅ Poco      | Alternativa moderna a Provider  |
+| GetX              | ✅ Alta        | ✅ Muy fácil | ✅ Poco      | Apps rápidas/prototipos grandes |
