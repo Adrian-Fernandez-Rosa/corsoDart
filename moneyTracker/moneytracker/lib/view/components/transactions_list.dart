@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
@@ -7,33 +9,28 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // final provider = Provider.of<TransactionsProvider>(context);
+    // final transactions = provider.transactions;
+    final transactions = Provider.of<TransactionsProvider>(context).transactions;
+    // aplicando teoria Spring
+
     return Expanded(
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
-        child: ListView(
-          children: const [
-            ListTile(
-              leading: Icon(Icons.attach_money, color: Colors.teal),
-              title: Text('Income'),
-              subtitle: Text('Salary'),
-              trailing: Text(
-                '\$ 1,000.00',
-                style: TextStyle(fontSize: 14)
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.money_off, color: Colors.red),
-              title: Text('Expense'),
-              subtitle: Text('Rent'),
-              trailing: Text(
-                '\$ 500.00',
-                style: TextStyle(fontSize: 14)
-              ),
-            ),
-          ],
-        ),
+        child: ListView.builder(
+          itemCount: 11,
+          itemBuilder: (context, index) {
+            return const ListTile(
+              leading: Icon(Icons.money),
+              title: Text('Sample Transaction'),
+              subtitle: Text('Transaction amount'), 
+              trailing: Icon(Icons.delete),
+              
+            );
+          },)
       ),
     );
   }
