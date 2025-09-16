@@ -17,6 +17,11 @@ class HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme = Theme.of(context).textTheme;
 
+    final formattedAmount = amount < 0
+        ? '-\$ ${amount.abs().toStringAsFixed(2)}'
+        : '\$${amount.toStringAsFixed(2)}';
+    
+
     return  Expanded(
       child:  Card(
           margin: EdgeInsets.all(0), // elimina el margen por defecto en todos los lados
@@ -29,13 +34,15 @@ class HeaderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     icon,
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(title, style: TextStyle(color: Colors.grey)),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                   ],
                 ),
                 SizedBox(height: 8),
-                Text('\$ $amount', style: TextTheme.titleLarge),
+                Text(formattedAmount,
+                    style: TextTheme.titleLarge),
+                
               ],
             ),
           )),

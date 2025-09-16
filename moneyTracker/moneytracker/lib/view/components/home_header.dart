@@ -52,7 +52,7 @@ class homeHeader extends StatelessWidget {
             child: Row(
               children: [
                 HeaderCard(
-                  title: 'Income',
+                  title: 'Incomes',
                   amount: incomes,
                   icon: const Icon(Icons.attach_money, 
                     color: Colors.teal,
