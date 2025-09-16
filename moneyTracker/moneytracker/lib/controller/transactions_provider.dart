@@ -11,7 +11,7 @@ class TransactionsProvider extends ChangeNotifier {
 
     Transaction(
     type: TransactionType.expense,
-     amount: -500.00,
+     amount: 500.00,
       description: 'Rent'
       ),
 
@@ -19,29 +19,30 @@ class TransactionsProvider extends ChangeNotifier {
 
   List<Transaction> get transactions => _transactions; 
 
-  double getTotalBalance() {
+  double getTotalIncomes() {
     return _transactions
-       .where((transactions) => transactions.type == TransactionType.income)
-      //  .map((transactions) => transactions.amount)
-      //  .fold(0, (a, b) => a + b);
+        .where((transactions) => transactions.type == TransactionType.income)
+        //  .map((transactions) => transactions.amount)
+        //  .fold(0, (a, b) => a + b);
 
-      .fold(0, (sum, b) => sum + b.amount);
-       }
+        .fold(0, (sum, b) => sum + b.amount);
+  }
 
-  double gentBalance() {
+  double getTotalExpenses() {
     return _transactions
-       .where((transactions) => transactions.type == TransactionType.expense)
-      //  .map((transactions) => transactions.amount)
-      //  .fold(0, (a, b) => a + b);
+        .where((transactions) => transactions.type == TransactionType.expense)
+        //  .map((transactions) => transactions.amount)
+        //  .fold(0, (a, b) => a + b);
 
-      .fold(0, (sum, b) => sum + b.amount);
-       }
+        .fold(0, (sum, b) => sum + b.amount);
+  }
+
+  double getBalance() {
+    return getTotalIncomes() - getTotalExpenses();
+  }
 
   void addTransaction(Transaction transaction) {
     _transactions.add(transaction);
     notifyListeners();
   }
-
-
-  
 }

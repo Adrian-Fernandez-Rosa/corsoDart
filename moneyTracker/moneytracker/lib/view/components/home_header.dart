@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
 import 'package:moneytracker/view/widget/header_card.dart';
+import 'package:provider/provider.dart';
 
 class homeHeader extends StatelessWidget {
   const homeHeader({
@@ -9,6 +11,12 @@ class homeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme = Theme.of(context).textTheme;
+
+    final provider = Provider.of<TransactionsProvider>(context);
+    final balance = provider.getBalance();
+    final incomes = provider.getTotalIncomes();
+    final expenses = provider.getTotalExpenses();
+
     return Container( //header
       // height: 150,
       width: double.infinity, // ocupa todo el ancho
@@ -32,28 +40,29 @@ class homeHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.white.withOpacity(0.5))),
 
-          Text('\$ 1,000.00',
+          Text(
+              '\$${balance.toStringAsFixed(2)}',
               style: TextTheme.headlineLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.white)),
 
 
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Row(
               children: [
                 HeaderCard(
                   title: 'Income',
-                  amount: 1000.00,
-                  icon: Icon(Icons.attach_money, 
+                  amount: incomes,
+                  icon: const Icon(Icons.attach_money, 
                     color: Colors.teal,
                     ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 HeaderCard(
                   title: 'Expenses',
-                  amount: -500.00,
-                  icon: Icon(Icons.money_off, 
+                  amount: -expenses,
+                  icon: const Icon(Icons.money_off, 
                     color: Colors.red,
                     ),
                 ),

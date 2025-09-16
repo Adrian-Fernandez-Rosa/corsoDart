@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:moneytracker/model/transaction.dart';
 import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
@@ -21,13 +22,23 @@ class TransactionsList extends StatelessWidget {
           color: Colors.white,
         ),
         child: ListView.builder(
-          itemCount: 11,
+          itemCount:  transactions.length,
           itemBuilder: (context, index) {
-            return const ListTile(
-              leading: Icon(Icons.money),
-              title: Text('Sample Transaction'),
-              subtitle: Text('Transaction amount'), 
-              trailing: Icon(Icons.delete),
+
+            final transaction = transactions[index];
+            final type = transaction.type == TransactionType.income ? 'Income' : 'Expense';
+            final value = transaction.type == TransactionType.expense 
+            ? '-\$ ${transaction.amount.abs().toStringAsFixed(2)}' 
+            : '\$ ${transaction.amount.toStringAsFixed(2)}';
+            final color = transaction.type == TransactionType.expense 
+            ? Colors.red
+            : Colors.teal;
+
+            return ListTile(
+           
+              title: Text(transaction.description),
+              subtitle: Text(type), 
+              trailing: Text(value, style: TextStyle(fontSize: 14, color: color )),
               
             );
           },)
