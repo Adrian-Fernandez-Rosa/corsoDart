@@ -1,6 +1,9 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:moneytracker/model/transaction.dart';
+import 'package:provider/provider.dart';
 
 class AddTransactionsDialog extends StatefulWidget {
   const AddTransactionsDialog({super.key});
@@ -11,12 +14,20 @@ class AddTransactionsDialog extends StatefulWidget {
 
 class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
      int? typeIndex = 0;
+     TransactionType type = TransactionType.expense;
+      double amount = 0.0;
+      String description = '';
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
- 
-    
+
+
 
 
     return  SizedBox(
@@ -41,12 +52,13 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
           CupertinoSlidingSegmentedControl(
             groupValue: typeIndex,
             children: const {
-            0: Text('Expense'),
-            1: Text('Income'),
+            0: Text('Income'),
+            1: Text('Expense'),
           }, onValueChanged: (value) {
             setState(() {
             typeIndex = value;
-              
+            type = value == 0 ? TransactionType.income : TransactionType.expense;
+
             });
           }),
 
@@ -60,6 +72,17 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
             decoration: const InputDecoration.collapsed(hintText: '\$ 0.00'),
             keyboardType: TextInputType.number,
             // autofocus: true,
+            onChanged:  (value) {
+              print(value);
+              final valuewithoutDollarSign = value.replaceAll('\$', '');
+              final valuewithoutCommas = valuewithoutDollarSign.replaceAll(',', '');
+
+              if(valuewithoutCommas.isNotEmpty){
+                amount = double.parse(valuewithoutCommas);
+              }
+
+
+            },
           ),
           const SizedBox(height: 20,),
           Text(
@@ -67,19 +90,36 @@ class _AddTransactionsDialogState extends State<AddTransactionsDialog> {
             style: textTheme.bodySmall!.copyWith(color: Colors.teal),
           ),
 
-          const TextField(
+          TextField(
             // inputFormatters: [CurrencyTextInputFormatter.currency(symbol: '\$')],
             textAlign: TextAlign.center,
-            decoration: InputDecoration.collapsed(
+            decoration: const InputDecoration.collapsed(
                 hintText: 'Enter a description here',
                 hintStyle: TextStyle(color: Colors.grey)),
             keyboardType: TextInputType.text,
+            onChanged: (value) {
+              description = value;
+            },
           ),
           const SizedBox(height: 20),
           SizedBox(
               width: 250,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+               
+
+                  final transaction = Transaction(
+                    type: type,
+                    amount: amount,
+                    description: description
+                  );
+
+                  Provider.of<TransactionsProvider>(context, listen: false)
+                      .addTransaction(transaction);
+
+                      Navigator.pop(context); // Cierra el diálogo
+
+                },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: const Text(
                   'Add Transaction',
